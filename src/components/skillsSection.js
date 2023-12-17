@@ -4,26 +4,30 @@ import { faPencilRuler, faCode, faDatabase, faChevronDown } from '@fortawesome/f
 
 const SkillsSection = () => {
     const [cardVisibility, setCardVisibility] = useState({ card1: false, card2: false, card3: false });
+    const [showDownArrow, setShowDownArrow] = useState(false);
+    const [animateDownArrow, setAnimateDownArrow] = useState(false);
     const card1Ref = useRef(null);
     const card2Ref = useRef(null);
     const card3Ref = useRef(null);
+    const sectionRef = useRef(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     setCardVisibility(prev => ({ ...prev, [entry.target.id]: true }));
+                    setShowDownArrow(true);
+                    setTimeout(() => setAnimateDownArrow(true), 5000); // Start arrow animation after 1 second of being visible
                 }
             });
-        }, { threshold: 1 });
+        }, { threshold: 0.1 });
 
         observer.observe(card1Ref.current);
         observer.observe(card2Ref.current);
         observer.observe(card3Ref.current);
+        observer.observe(sectionRef.current);
 
-        return () => {
-            observer.disconnect();
-        };
+        return () => observer.disconnect();
     }, []);
 
     const getCardStyle = (cardNumber) => ({
@@ -91,23 +95,30 @@ const SkillsSection = () => {
         background: 'linear-gradient(90deg, rgba(131,58,180,1), rgba(253,29,29,1), rgba(252,176,69,1))',
         WebkitBackgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
-        textAlign: 'center', // Align gradient text center
-        display: 'block', // Changed to 'block' for center alignment
+        textAlign: 'center',
+        display: 'block',
         fontSize: '2.3em',
-        marginBottom: '10px', // Space between title and paragraph
+        marginBottom: '10px',
     };
 
-    const downArrowContainerStyle = {
+    const downArrowInitialStyle = {
         position: 'absolute',
         bottom: '30px',
         left: '50%',
         transform: 'translateX(-50%)',
         fontSize: '2em',
         color: 'white',
+        opacity: 0, // Initially transparent
+        transition: 'opacity 1s ease', // Smooth transition for the fade-in effect
+    };
+
+    const downArrowFinalStyle = {
+        ...downArrowInitialStyle,
+        opacity: 1, // Fully visible
     };
 
     return (
-        <div style={skillsSectionStyle}>
+        <div style={skillsSectionStyle} ref={sectionRef}>
             <div style={iconContainerStyle}>
                 <div style={iconBackgroundStyle}>
                     <FontAwesomeIcon icon={faPencilRuler} style={iconStyle} />
@@ -133,9 +144,9 @@ const SkillsSection = () => {
                     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
                 </div>
             </div>
-            <div style={downArrowContainerStyle}>
+            {showDownArrow && <div style={animateDownArrow ? downArrowFinalStyle : downArrowInitialStyle}>
                 <FontAwesomeIcon icon={faChevronDown} />
-            </div>
+            </div>}
         </div>
     );
 };
