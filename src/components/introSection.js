@@ -5,13 +5,13 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 const IntroSection = () => {
     const [animateFooter, setAnimateFooter] = useState(false);
     const [showDownArrow, setShowDownArrow] = useState(false);
-    const [downArrowOpacity, setDownArrowOpacity] = useState(0);
+    const [animateDownArrow, setAnimateDownArrow] = useState(false);
 
     useEffect(() => {
         const footerTimer = setTimeout(() => setAnimateFooter(true), 300);
         const arrowTimer = setTimeout(() => {
             setShowDownArrow(true);
-            setDownArrowOpacity(0.8); // Set opacity to 1 for fade-in effect
+            setTimeout(() => setAnimateDownArrow(true), 100); // Trigger the transition after showing the arrow
         }, 5000); // 5 seconds delay
 
         return () => {
@@ -107,7 +107,7 @@ const IntroSection = () => {
         borderRadius: '85px',
         position: 'relative',
         zIndex: 3,
-        boxShadow: '0px 0px 25px rgba(0, 0, 0, 0.1)',
+        boxShadow: 'none',
         transition: 'all 1s ease', // Transition for the animation
     };
 
@@ -118,7 +118,7 @@ const IntroSection = () => {
         boxShadow: '0px 0px 25px rgba(0, 0, 0, 0.4)',
     };
 
-    const downArrowStyle = {
+    const downArrowInitialStyle = {
         color: 'white',
         fontSize: '2em',
         position: 'absolute',
@@ -126,8 +126,13 @@ const IntroSection = () => {
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 4,
-        opacity: downArrowOpacity, // Controlled opacity
-        transition: 'opacity 1000ms ease' // Smooth transition for the fade-in effect
+        opacity: 0, // Initially transparent
+        transition: 'opacity 1s ease', // Smooth transition for the fade-in effect
+    };
+
+    const downArrowFinalStyle = {
+        ...downArrowInitialStyle,
+        opacity: 1, // Fully visible
     };
 
     return (
@@ -152,7 +157,7 @@ const IntroSection = () => {
                     {/* Additional content for the footer can go here */}
                 </div>
             </div>
-            {showDownArrow && <FontAwesomeIcon icon={faChevronDown} style={downArrowStyle} />} {/* Down arrow icon */}
+            {showDownArrow && <FontAwesomeIcon icon={faChevronDown} style={animateDownArrow ? downArrowFinalStyle : downArrowInitialStyle} />}
         </div>
     );
 };
