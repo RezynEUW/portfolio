@@ -75,7 +75,7 @@ const SkillsSection = () => {
     };
 
     const iconStyle = {
-        color: 'white',
+        color: 'FEFEFE',
         fontSize: '2em',
     };
 
