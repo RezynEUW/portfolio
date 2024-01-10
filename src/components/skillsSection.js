@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilRuler, faCode, faDatabase, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faPencilRuler, faCode, faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 const SkillsSection = () => {
     const [cardVisibility, setCardVisibility] = useState({ card1: false, card2: false, card3: false });
