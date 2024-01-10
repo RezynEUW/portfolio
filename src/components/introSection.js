@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
+//Dark Mode
+//background: rgb(153,58,180);
+//background: linear-gradient(90deg, rgba(153,58,180,1) 0%, rgba(27,0,119,1) 50%, rgba(18,18,18,1) 100%);
+
 const IntroSection = () => {
     const [animateFooter, setAnimateFooter] = useState(false);
     const [showDownArrow, setShowDownArrow] = useState(false);
@@ -11,14 +15,25 @@ const IntroSection = () => {
         const footerTimer = setTimeout(() => setAnimateFooter(true), 300);
         const arrowTimer = setTimeout(() => {
             setShowDownArrow(true);
-            setTimeout(() => setAnimateDownArrow(true), 100); // Trigger the transition after showing the arrow
-        }, 5000); // 5 seconds delay
+            setTimeout(() => setAnimateDownArrow(true), 100);
+        }, 5000);
 
         return () => {
             clearTimeout(footerTimer);
             clearTimeout(arrowTimer);
         };
     }, []);
+
+    const handleDownArrowClick = () => {
+        const skillsSection = document.getElementById('skills-section');
+        console.log('Skills section element:', skillsSection); // Debug log
+        if (skillsSection) {
+            skillsSection.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            console.log('Skills section not found');
+        }
+    };
+    
 
     const outerContainerStyle = {
         position: 'relative',
@@ -149,15 +164,21 @@ const IntroSection = () => {
                     </div>
                 </div>
                 <div style={introImageStyle}>
-                    {/* The image is now displayed as a background */}
+                    {/* Image displayed as a background */}
                 </div>
             </div>
             <div style={footerOuterStyle}>
                 <div style={animateFooter ? footerInnerFinalStyle : footerInnerInitialStyle}>
-                    {/* Additional content for the footer can go here */}
+                    {/* Additional content for the footer */}
                 </div>
             </div>
-            {showDownArrow && <FontAwesomeIcon icon={faChevronDown} style={animateDownArrow ? downArrowFinalStyle : downArrowInitialStyle} />}
+            {showDownArrow && (
+                <FontAwesomeIcon
+                    icon={faChevronDown}
+                    style={animateDownArrow ? downArrowFinalStyle : downArrowInitialStyle}
+                    onClick={handleDownArrowClick}
+                />
+            )}
         </div>
     );
 };

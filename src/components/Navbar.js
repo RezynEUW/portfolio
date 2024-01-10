@@ -43,7 +43,7 @@ const Navbar = () => {
         <div style={navbarStyle}>
             <img src="/logo.svg" alt="Logo" style={logoStyle} /> {/* Use logo.svg here */}
             <div style={buttonContainerStyle}>
-                <button style={buttonStyle}>About</button>
+                <button style={buttonStyle}>Projects</button>
                 <button style={buttonStyle}>CV</button>
                 <button style={buttonStyle}>LinkedIn</button>
             </div>

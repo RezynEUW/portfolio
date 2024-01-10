@@ -4,20 +4,17 @@ import { faPencilRuler, faCode, faDatabase, faChevronDown } from '@fortawesome/f
 
 const SkillsSection = () => {
     const [cardVisibility, setCardVisibility] = useState({ card1: false, card2: false, card3: false });
-    const [showDownArrow, setShowDownArrow] = useState(false);
-    const [animateDownArrow, setAnimateDownArrow] = useState(false);
     const card1Ref = useRef(null);
     const card2Ref = useRef(null);
     const card3Ref = useRef(null);
-    const sectionRef = useRef(null);
 
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    setCardVisibility(prev => ({ ...prev, [entry.target.id]: true }));
-                    setShowDownArrow(true);
-                    setTimeout(() => setAnimateDownArrow(true), 5000); // Start arrow animation after 1 second of being visible
+                    setTimeout(() => setCardVisibility(prev => ({ ...prev, card1: true })), 1000);
+                    setTimeout(() => setCardVisibility(prev => ({ ...prev, card2: true })), 2000);
+                    setTimeout(() => setCardVisibility(prev => ({ ...prev, card3: true })), 3000);
                 }
             });
         }, { threshold: 0.1 });
@@ -25,7 +22,6 @@ const SkillsSection = () => {
         observer.observe(card1Ref.current);
         observer.observe(card2Ref.current);
         observer.observe(card3Ref.current);
-        observer.observe(sectionRef.current);
 
         return () => observer.disconnect();
     }, []);
@@ -35,14 +31,15 @@ const SkillsSection = () => {
         borderRadius: '60px',
         padding: '26px',
         boxShadow: cardVisibility[`card${cardNumber}`] ? '0px 0px 25px rgba(0, 0, 0, 0.4)' : 'none',
-        width: cardVisibility[`card${cardNumber}`] ? 'calc(30% - 10px)' : '29%',
+        width: 'calc(30% - 10px)',
         textAlign: 'left',
         boxSizing: 'border-box',
         position: 'relative',
         overflow: 'hidden',
         border: '15px dashed transparent',
         backgroundClip: 'padding-box',
-        transition: `all ${cardNumber}s ease`,
+        opacity: cardVisibility[`card${cardNumber}`] ? 1 : 0,
+        transition: 'opacity 2.5s ease, box-shadow 4s ease',
     });
 
     const skillsSectionStyle = {
@@ -59,7 +56,7 @@ const SkillsSection = () => {
     const iconContainerStyle = {
         display: 'flex',
         justifyContent: 'space-between',
-        width: '57%',
+        width: '64%',
         marginBottom: '30px',
         paddingLeft: '11%',
         paddingRight: '11%',
@@ -75,7 +72,7 @@ const SkillsSection = () => {
     };
 
     const iconStyle = {
-        color: 'FEFEFE',
+        color: 'white',
         fontSize: '2em',
     };
 
@@ -87,7 +84,7 @@ const SkillsSection = () => {
     const cardContainerStyle = {
         display: 'flex',
         justifyContent: 'space-between',
-        width: '75%',
+        width: '85%',
     };
 
     const gradientTextStyle = {
@@ -101,24 +98,8 @@ const SkillsSection = () => {
         marginBottom: '10px',
     };
 
-    const downArrowInitialStyle = {
-        position: 'absolute',
-        bottom: '30px',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        fontSize: '2em',
-        color: 'white',
-        opacity: 0, // Initially transparent
-        transition: 'opacity 1s ease', // Smooth transition for the fade-in effect
-    };
-
-    const downArrowFinalStyle = {
-        ...downArrowInitialStyle,
-        opacity: 1, // Fully visible
-    };
-
     return (
-        <div style={skillsSectionStyle} ref={sectionRef}>
+        <div style={skillsSectionStyle}>
             <div style={iconContainerStyle}>
                 <div style={iconBackgroundStyle}>
                     <FontAwesomeIcon icon={faPencilRuler} style={iconStyle} />
@@ -131,22 +112,19 @@ const SkillsSection = () => {
                 </div>
             </div>
             <div style={cardContainerStyle}>
-                <div id="card1" ref={card1Ref} style={getCardStyle(1)}>
+                <div id="card1" ref={card1Ref} style={getCardStyle('1')}>
                     <span style={gradientTextStyle}>UI/UX</span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <p>User Experience design and User Interface design are the two cornerstones of my ability. These are the groundwork for any valuable product and its potential. Through my education and personal projects, this has turned out to be my strongest suite. My eye is well trained and I've got a strong sense of what belongs and what does not.</p>
                 </div>
-                <div id="card2" ref={card2Ref} style={getCardStyle(2)}>
+                <div id="card2" ref={card2Ref} style={getCardStyle('2')}>
                     <span style={{...gradientTextStyle, color: 'rgba(253,29,29,1)'}}>Front End</span>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p>My abilities are mainly focused upon general web development in classic HTML+CSS fashion, or more recently React and React Native for other platforms. Recent larger projects have been more focused on finishing products, so I'd very much be interested in pursuing this field even more whether it be professionally or for my own projects.</p>
                 </div>
-                <div id="card3" ref={card3Ref} style={getCardStyle(3)}>
+                <div id="card3" ref={card3Ref} style={getCardStyle('3')}>
                     <span style={{...gradientTextStyle, color: 'rgba(252,176,69,1)'}}>Back End</span>
-                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                    <p>While my fundamentals are sharp in Design and UI/UX development, my degree also contains general tinkering with databases and server-based systems. Not my brightest category, but I am always up to learn something new!</p>
                 </div>
             </div>
-            {showDownArrow && <div style={animateDownArrow ? downArrowFinalStyle : downArrowInitialStyle}>
-                <FontAwesomeIcon icon={faChevronDown} />
-            </div>}
         </div>
     );
 };
