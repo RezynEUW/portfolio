@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-
-//Dark Mode
-//background: rgb(153,58,180);
-//background: linear-gradient(90deg, rgba(153,58,180,1) 0%, rgba(27,0,119,1) 50%, rgba(18,18,18,1) 100%);
+import { ThemeContext } from './ThemeContext'; // Ensure the correct path
 
 const IntroSection = () => {
     const [animateFooter, setAnimateFooter] = useState(false);
     const [showDownArrow, setShowDownArrow] = useState(false);
     const [animateDownArrow, setAnimateDownArrow] = useState(false);
+    const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
         const footerTimer = setTimeout(() => setAnimateFooter(true), 300);
@@ -26,21 +24,27 @@ const IntroSection = () => {
 
     const handleDownArrowClick = () => {
         const skillsSection = document.getElementById('skills-section');
-        console.log('Skills section element:', skillsSection); // Debug log
         if (skillsSection) {
             skillsSection.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            console.log('Skills section not found');
         }
     };
-    
 
+    // Define gradients for light and dark themes
+    const gradients = {
+        light: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
+        dark: 'linear-gradient(90deg, rgba(8,0,37,1) 0%, rgba(27,0,119,1) 50%, rgba(8,0,37,1) 100%)',
+        light2: 'linear-gradient(135deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 100%)',
+        dark2: 'linear-gradient(135deg, rgba(27,0,119,1) 0%, rgba(8,0,37,1) 100%)',
+    };
+
+    // Styles
     const outerContainerStyle = {
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         height: '80vh',
-        background: 'linear-gradient(90deg, rgba(131,58,180,1), rgba(253,29,29,1), rgba(252,176,69,1))',
+        background: gradients[theme], // Use theme-based gradient
+        // ... other styles
     };
 
     const introSectionStyle = {
@@ -103,7 +107,7 @@ const IntroSection = () => {
     };
 
     const footerOuterStyle = {
-        background: 'linear-gradient(90deg, rgba(131,58,180,1), rgba(253,29,29,1), rgba(252,176,69,1))',
+        background: gradients[theme], // Use theme-based gradient
         position: 'absolute',
         top: 0,
         left: 0,
@@ -116,7 +120,7 @@ const IntroSection = () => {
     };
 
     const footerInnerInitialStyle = {
-        background: 'linear-gradient(135deg, rgba(131,58,180,1), rgba(253,29,29,1)',
+        background: theme === 'light' ? gradients.light2 : gradients.dark2, // Use theme-based gradient (light2 or dark2)
         height: '99%', // Slightly smaller
         width: '84%', // Slightly narrower
         borderRadius: '85px',
