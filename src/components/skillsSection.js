@@ -10,16 +10,22 @@ const SkillsSection = () => {
     const card2Ref = useRef(null);
     const card3Ref = useRef(null);
 
+    // Define gradients for light and dark themes
+    const gradients = {
+        light: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
+        dark: 'linear-gradient(90deg, rgba(8,0,37,1) 0%, rgba(27,0,119,1) 50%, rgba(8,0,37,1) 100%)',
+        light2: 'linear-gradient(135deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 100%)',
+        dark2: 'linear-gradient(135deg, rgba(27,0,119,1) 0%, rgba(18,18,18,1) 100%)',
+    };
+
     useEffect(() => {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    setTimeout(() => setCardVisibility(prev => ({ ...prev, card1: true })), 1000);
-                    setTimeout(() => setCardVisibility(prev => ({ ...prev, card2: true })), 2000);
-                    setTimeout(() => setCardVisibility(prev => ({ ...prev, card3: true })), 3000);
+                    setTimeout(() => setCardVisibility(prev => ({ ...prev, [entry.target.id]: true })), 300);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 1 });
 
         observer.observe(card1Ref.current);
         observer.observe(card2Ref.current);
@@ -29,32 +35,24 @@ const SkillsSection = () => {
     }, []);
 
     const getCardStyle = (cardNumber) => ({
-        backgroundColor: theme === 'light' ? 'white' : 'linear-gradient(135deg, rgba(27,0,119,1) 0%, rgba(18,18,18,1) 100%)', // Dark mode background color
+        backgroundColor: theme === 'light' ? gradients.light : gradients.dark, // Dark mode background color
         color: theme === 'dark' ? 'white' : 'black', // Text color for dark theme
         borderRadius: '60px',
         padding: '26px',
         boxShadow: cardVisibility[`card${cardNumber}`] ? '0px 0px 25px rgba(0, 0, 0, 0.4)' : 'none',
-        width: 'calc(30% - 10px)',
+        width: cardVisibility[`card${cardNumber}`] ? 'calc(30% - 10px)' : '29%',
         textAlign: 'left',
         boxSizing: 'border-box',
         position: 'relative',
         overflow: 'hidden',
         border: '15px dashed transparent',
         backgroundClip: 'padding-box',
+        transition: `all ${cardNumber}s ease`,
         opacity: cardVisibility[`card${cardNumber}`] ? 1 : 0,
-        transition: 'opacity 2.5s ease, box-shadow 4s ease',
     });
 
-    // Define gradients for light and dark themes
-    const gradients = {
-        light: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)',
-        dark: 'linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(27,0,119,1) 50%, rgba(18,18,18,1) 100%)',
-        light2: 'linear-gradient(135deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 100%)',
-        dark2: 'linear-gradient(135deg, rgba(27,0,119,1) 0%, rgba(18,18,18,1) 100%)',
-    };
-
     const skillsSectionStyle = {
-        background: theme === 'light' ? gradients.light : gradients.dark, // Use theme-based gradient
+        background: theme === 'light' ? gradients.light : gradients.dark2, // Use theme-based gradient
         padding: '20px',
         display: 'flex',
         flexDirection: 'column',
@@ -67,7 +65,7 @@ const SkillsSection = () => {
     const iconContainerStyle = {
         display: 'flex',
         justifyContent: 'space-between',
-        width: '64%',
+        width: '57%',
         marginBottom: '30px',
         paddingLeft: '11%',
         paddingRight: '11%',
@@ -95,16 +93,18 @@ const SkillsSection = () => {
     const cardContainerStyle = {
         display: 'flex',
         justifyContent: 'space-between',
-        width: '85%',
+        width: '75%',
     };
 
     const gradientTextStyle = {
         fontWeight: '900',
-        color: theme === 'dark' ? 'white' : 'black', // Text color for dark theme
-        textAlign: 'center',
-        display: 'block',
+        background: theme === 'light' ? gradients.light2 : gradients.dark2,
+        WebkitBackgroundClip: 'text',
+        WebkitTextFillColor: 'transparent',
+        textAlign: 'center', // Align gradient text center
+        display: 'block', // Changed to 'block' for center alignment
         fontSize: '2.3em',
-        marginBottom: '10px',
+        marginBottom: '10px', // Space between title and paragraph
     };
 
     return (
