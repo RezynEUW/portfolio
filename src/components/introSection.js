@@ -24,10 +24,11 @@ const IntroSection = () => {
     }, []);
 
     const handleDownArrowClick = () => {
-        const skillsSection = document.getElementById('skills-section');
-        if (skillsSection) {
-            skillsSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        const viewportHeight = window.innerHeight;
+        window.scrollBy({
+            top: viewportHeight*0.9,
+            behavior: 'smooth'
+        });
     };
 
     // Define gradients for light and dark themes
@@ -54,6 +55,15 @@ const IntroSection = () => {
         flex: 1,
     };
 
+    const textContainer = {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        paddingLeft: '16%', // Adjusted padding for alignment
+        zIndex: 4,
+    };
+
     const nameTextStyle = {
         fontSize: '2.5rem',
         fontFamily: 'Raleway',
@@ -62,7 +72,6 @@ const IntroSection = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        marginLeft: '150px',
         zIndex: 3,
         background: 'white',
         WebkitBackgroundClip: 'text',
@@ -78,21 +87,12 @@ const IntroSection = () => {
         fontFamily: 'Raleway',
         color: 'white',
         textAlign: 'left',
-        marginLeft: '150px',
         maxWidth: '600px',
     };
 
-    const textContainer = {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        zIndex: 4,
-    };
-
     const introImageStyle = {
-        width: '400px',
-        height: '400px',
+        width: '450px',
+        height: '450px',
         borderRadius: '200px',
         backgroundImage: 'url(/clear4.png)',
         backgroundSize: 'cover',
@@ -101,7 +101,7 @@ const IntroSection = () => {
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 4,
-        marginRight: '200px',
+        marginRight: '20%',
         marginBottom: '0px',
     };
 
@@ -157,9 +157,7 @@ const IntroSection = () => {
                 <div style={introImageStyle}></div>
             </div>
             <div style={footerOuterStyle}>
-                <div style={footerInnerStyle}>
-                    {/* */}
-                </div>
+                <div style={footerInnerStyle}></div>
             </div>
             {showDownArrow && (
                 <FontAwesomeIcon
