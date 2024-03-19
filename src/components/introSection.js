@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { ThemeContext } from './ThemeContext'; // Ensure the correct path
+import { ThemeContext } from './ThemeContext';
+import '../visiting.css';
 
 const IntroSection = () => {
     const [animateFooter, setAnimateFooter] = useState(false);
@@ -37,14 +38,12 @@ const IntroSection = () => {
         dark2: 'linear-gradient(135deg, rgba(27,0,119,1) 0%, rgba(8,0,37,1) 100%)',
     };
 
-    // Styles
     const outerContainerStyle = {
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         height: '80vh',
-        background: gradients[theme], // Use theme-based gradient
-        // ... other styles
+        background: gradients[theme],
     };
 
     const introSectionStyle = {
@@ -107,7 +106,7 @@ const IntroSection = () => {
     };
 
     const footerOuterStyle = {
-        background: gradients[theme], // Use theme-based gradient
+        background: gradients[theme],
         position: 'absolute',
         top: 0,
         left: 0,
@@ -119,25 +118,18 @@ const IntroSection = () => {
         marginTop: '30px',
     };
 
-    const footerInnerInitialStyle = {
-        background: theme === 'light' ? gradients.light2 : gradients.dark2, // Use theme-based gradient (light2 or dark2)
-        height: '99%', // Slightly smaller
-        width: '84%', // Slightly narrower
+    const footerInnerStyle = {
+        background: theme === 'light' ? gradients.light2 : gradients.dark2,
+        height: animateFooter ? '100%' : '99%',
+        width: animateFooter ? '85%' : '84%',
         borderRadius: '85px',
         position: 'relative',
         zIndex: 3,
-        boxShadow: 'none',
-        transition: 'all 1s ease', // Transition for the animation
+        boxShadow: animateFooter ? '0px 0px 25px rgba(0, 0, 0, 0.4)' : 'none',
+        transition: 'all 1s ease',
     };
 
-    const footerInnerFinalStyle = {
-        ...footerInnerInitialStyle,
-        height: '100%',
-        width: '85%',
-        boxShadow: '0px 0px 25px rgba(0, 0, 0, 0.4)',
-    };
-
-    const downArrowInitialStyle = {
+    const downArrowStyle = {
         color: 'white',
         fontSize: '2em',
         position: 'absolute',
@@ -145,13 +137,8 @@ const IntroSection = () => {
         left: '50%',
         transform: 'translateX(-50%)',
         zIndex: 4,
-        opacity: 0, // Initially transparent
-        transition: 'opacity 1s ease', // Smooth transition for the fade-in effect
-    };
-
-    const downArrowFinalStyle = {
-        ...downArrowInitialStyle,
-        opacity: 1, // Fully visible
+        opacity: animateDownArrow ? 1 : 0,
+        transition: 'opacity 1s ease',
     };
 
     return (
@@ -167,19 +154,17 @@ const IntroSection = () => {
                         <p>View what I'm about below!</p>
                     </div>
                 </div>
-                <div style={introImageStyle}>
-                    {/* Image displayed as a background */}
-                </div>
+                <div style={introImageStyle}></div>
             </div>
             <div style={footerOuterStyle}>
-                <div style={animateFooter ? footerInnerFinalStyle : footerInnerInitialStyle}>
-                    {/* Additional content for the footer */}
+                <div style={footerInnerStyle}>
+                    {/* */}
                 </div>
             </div>
             {showDownArrow && (
                 <FontAwesomeIcon
                     icon={faChevronDown}
-                    style={animateDownArrow ? downArrowFinalStyle : downArrowInitialStyle}
+                    style={downArrowStyle}
                     onClick={handleDownArrowClick}
                 />
             )}

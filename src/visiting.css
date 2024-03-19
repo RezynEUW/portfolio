@@ -1,0 +1,27 @@
+@keyframes raceAround {
+    0% {
+      border-color: transparent;
+      border-top-color: white;
+    }
+    25% {
+      border-color: transparent;
+      border-right-color: white;
+    }
+    50% {
+      border-color: transparent;
+      border-bottom-color: white;
+    }
+    75% {
+      border-color: transparent;
+      border-left-color: white;
+    }
+    100% {
+      border-color: white;
+    }
+  }
+  
+  .intro-section-hovered {
+    animation: raceAround 2s infinite linear;
+    border: 2px solid transparent; /* Adjust the border width as necessary */
+  }
+  
